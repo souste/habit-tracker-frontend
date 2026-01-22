@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/api";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
   const [loginCredentials, setLoginCredentials] = useState({ email: "", password: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { refreshUser } = useAuth();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -24,6 +26,7 @@ function Login() {
         setIsSubmitting(false);
         return;
       }
+      await refreshUser();
       navigate("/");
     } catch (err) {
       setError(err.message || "Login failed");

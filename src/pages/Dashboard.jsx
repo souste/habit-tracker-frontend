@@ -1,25 +1,22 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../components/context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { getMe } from "../services/api";
 
 function Dashboard() {
-  const [user, setUser] = useState(null);
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    (async () => {
-      const response = await getMe();
+    if (!loading && !user) {
+      navigate("/login");
+    }
+  }, [loading, user, navigate]);
 
-      if (response.error) {
-        localStorage.removeItem("token");
-        navigate("/login");
-        return;
-      }
-      setUser(response.data.user);
-    })();
-  }, [navigate]);
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
-  if (!user) return <p>Loading...</p>;
+  if (!user) return null;
 
   return (
     <div>
