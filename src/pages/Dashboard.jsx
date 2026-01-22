@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../components/context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import HabitList from "../components/habits/HabitList";
 
 function Dashboard() {
   const { user, loading } = useAuth();
@@ -22,6 +23,7 @@ function Dashboard() {
     <div>
       <h1>Dashboard</h1>
       <p>Logged in as: {user.email}</p>
+      <HabitList />
     </div>
   );
 }

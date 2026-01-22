@@ -37,3 +37,7 @@ export const login = async (loginData) => {
 export const getMe = async () => {
   return apiFetch("auth/me");
 };
+
+export const getHabits = async () => {
+  return apiFetch("habits", {});
+};
