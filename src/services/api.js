@@ -1,48 +1,39 @@
 const API_BASE = "http://localhost:3000";
 
-export const login = async (loginData) => {
-  try {
-    const response = await fetch(`${API_BASE}/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(loginData),
-    });
-    const result = await response.json();
-
-    if (!response.ok) {
-      return {
-        errors: { error: result.message || "Login failed" },
-      };
-    }
-    if (result.data?.token) {
-      localStorage.setItem("token", result.data.token);
-    }
-    return result;
-  } catch (err) {
-    console.error("Login error", err.message);
-    throw err;
-  }
-};
-
-export const getMe = async () => {
+export async function apiFetch(path, options = {}) {
   const token = localStorage.getItem("token");
 
-  if (!token) {
-    return { error: "No token" };
-  }
-
-  const response = await fetch(`${API_BASE}/auth/me`, {
+  const response = await fetch(`${API_BASE}/${path}`, {
+    ...options,
     headers: {
-      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
   });
 
-  const result = await response.json();
+  const result = await response.json().catch(() => null);
 
   if (!response.ok) {
-    return { error: result.message || "Token invalid" };
+    return { error: result?.message || "Request failed" };
   }
   return result;
+}
+
+export const login = async (loginData) => {
+  const result = await apiFetch("auth/login", {
+    method: "POST",
+    body: JSON.stringify(loginData),
+  });
+
+  if (result.error) return result;
+
+  if (result.data?.token) {
+    localStorage.setItem("token", result.data.token);
+  }
+  return result;
+};
+
+export const getMe = async () => {
+  return apiFetch("auth/me");
 };
