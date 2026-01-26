@@ -20,9 +20,9 @@ function Dashboard() {
   if (!user) return null;
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>Logged in as: {user.email}</p>
+    <div className="dashboard">
+      <h1>Habit Tracker</h1>
+      <p className="user-email">Logged in as: {user.email}</p>
       <HabitList />
     </div>
   );

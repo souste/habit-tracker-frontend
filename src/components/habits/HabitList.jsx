@@ -31,9 +31,9 @@ function HabitList() {
   ) : (
     <div>
       {habits.map((habit) => (
-        <div key={habit.id}>
+        <div key={habit.id} className="habit-card">
           <p>{habit.name}</p>
-          <p>{habit.frequency_per_week}</p>
+          <p>{habit.frequency_per_week} / 7</p>
         </div>
       ))}
     </div>
