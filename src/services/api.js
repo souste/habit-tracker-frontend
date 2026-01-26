@@ -41,3 +41,10 @@ export const getMe = async () => {
 export const getHabits = async () => {
   return apiFetch("habits", {});
 };
+
+export const createHabit = async (habitData) => {
+  return apiFetch("habits", {
+    method: "POST",
+    body: JSON.stringify(habitData),
+  });
+};

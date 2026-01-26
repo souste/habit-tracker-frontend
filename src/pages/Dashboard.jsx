@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../components/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import HabitList from "../components/habits/HabitList";
+import CreateHabit from "../components/habits/CreateHabit";
 
 function Dashboard() {
   const { user, loading } = useAuth();
@@ -21,8 +22,9 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
-      <h1>Habit Tracker</h1>
+      <h2>Habit Tracker</h2>
       <p className="user-email">Logged in as: {user.email}</p>
+      <CreateHabit />
       <HabitList />
     </div>
   );

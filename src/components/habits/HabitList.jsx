@@ -29,7 +29,7 @@ function HabitList() {
       <p>Loading Habits...</p>
     </div>
   ) : (
-    <div>
+    <div className="habits">
       {habits.map((habit) => (
         <div key={habit.id} className="habit-card">
           <p>{habit.name}</p>
