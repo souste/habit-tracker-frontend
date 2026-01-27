@@ -43,7 +43,7 @@ function Dashboard() {
       <h2>Habit Tracker</h2>
       <p className="user-email">Logged in as: {user.email}</p>
       <CreateHabit onCreated={loadHabits} />
-      <HabitList habits={habits} loading={habitsLoading} />
+      <HabitList habits={habits} loading={habitsLoading} onDeleted={loadHabits} />
     </div>
   );
 }

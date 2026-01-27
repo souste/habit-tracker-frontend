@@ -48,3 +48,9 @@ export const createHabit = async (habitData) => {
     body: JSON.stringify(habitData),
   });
 };
+
+export const deleteHabit = async (id) => {
+  return apiFetch(`habits/${id}`, {
+    method: "DELETE",
+  });
+};

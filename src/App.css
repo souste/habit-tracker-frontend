@@ -27,10 +27,39 @@ body {
 }
 
 .habit-card {
-  background: white;
-  padding: 16px;
+  background: #f9f9f9;
+  border: 1px solid #e5e5e5;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 12px 16px;
+  margin-bottom: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.delete-btn {
+  background: #ffe5e5;
+  color: #b00020;
+  border: 1px solid #ffcccc;
+  border-radius: 6px;
+  padding: 6px 10px;
+
+  font-size: 0.85rem;
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+
+.delete-btn:hover {
+  background: #ffcccc;
+}
+
+.delete-btn:active {
+  transform: scale(0.97);
 }
 
 .habit-card h3 {
@@ -39,7 +68,6 @@ body {
 
 .habit-card p {
   margin: 0;
-  color: #555;
 }
 
 /* Create Habit */
