@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createHabit } from "../../services/api";
 
-function CreateHabit() {
+function CreateHabit({ onCreated }) {
   const [habit, setHabit] = useState({ name: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -16,11 +16,16 @@ function CreateHabit() {
     setError("");
     try {
       const response = await createHabit(habit);
+
       if (response.errors) {
         setError(response.errors.error || "Couldn't create habit");
         return;
       }
       setHabit({ name: "" });
+
+      if (onCreated) {
+        onCreated();
+      }
     } catch (err) {
       setError(err.message || "Couldn't create habut");
     } finally {
@@ -29,9 +34,9 @@ function CreateHabit() {
   };
 
   return (
-    <div>
+    <div className="create-habit">
       <h3>Create Habit</h3>
-      {error && <p>{error}</p>}
+      {error && <p className="error">{error}</p>}
 
       <form onSubmit={handleSubmit}>
         <label>Habit name: </label>

@@ -1,20 +1,38 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../components/context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { getHabits } from "../services/api";
 import HabitList from "../components/habits/HabitList";
 import CreateHabit from "../components/habits/CreateHabit";
 
 function Dashboard() {
-  const { user, loading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
 
+  const [habits, setHabits] = useState([]);
+  const [habitsLoading, setHabitsLoading] = useState(true);
+
   useEffect(() => {
-    if (!loading && !user) {
+    if (!authLoading && !user) {
       navigate("/login");
     }
-  }, [loading, user, navigate]);
+  }, [authLoading, user, navigate]);
 
-  if (loading) {
+  const loadHabits = async () => {
+    setHabitsLoading(true);
+    const result = await getHabits();
+    if (!result.error) {
+      setHabits(result.data || []);
+    }
+    setHabitsLoading(false);
+  };
+
+  useEffect(() => {
+    if (authLoading || !user) return;
+    loadHabits();
+  }, [authLoading, user]);
+
+  if (authLoading) {
     return <p>Loading...</p>;
   }
 
@@ -24,8 +42,8 @@ function Dashboard() {
     <div className="dashboard">
       <h2>Habit Tracker</h2>
       <p className="user-email">Logged in as: {user.email}</p>
-      <CreateHabit />
-      <HabitList />
+      <CreateHabit onCreated={loadHabits} />
+      <HabitList habits={habits} loading={habitsLoading} />
     </div>
   );
 }
