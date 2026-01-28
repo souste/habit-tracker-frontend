@@ -54,3 +54,9 @@ export const updateHabit = (id, updates) =>
     method: "PATCH",
     body: JSON.stringify(updates),
   });
+
+export const createCheckin = (habitId) =>
+  apiFetch("checkins", {
+    method: "POST",
+    body: JSON.stringify({ habitId }),
+  });
