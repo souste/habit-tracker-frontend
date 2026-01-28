@@ -34,23 +34,23 @@ export const login = async (loginData) => {
   return result;
 };
 
-export const getMe = async () => {
-  return apiFetch("auth/me");
-};
+export const getMe = () => apiFetch("auth/me");
 
-export const getHabits = async () => {
-  return apiFetch("habits", {});
-};
+export const getHabits = () => apiFetch("habits");
 
-export const createHabit = async (habitData) => {
-  return apiFetch("habits", {
+export const createHabit = (habitData) =>
+  apiFetch("habits", {
     method: "POST",
     body: JSON.stringify(habitData),
   });
-};
 
-export const deleteHabit = async (id) => {
-  return apiFetch(`habits/${id}`, {
+export const deleteHabit = (id) =>
+  apiFetch(`habits/${id}`, {
     method: "DELETE",
   });
-};
+
+export const updateHabit = (id, updates) =>
+  apiFetch(`habits/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify(updates),
+  });
