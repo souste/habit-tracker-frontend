@@ -1,16 +1,50 @@
-# React + Vite
+# Habit Tracker (Full-Stack)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple full-stack habit tracking application built to reinforce **core full-stack fundamentals**.
 
-Currently, two official plugins are available:
+The focus of this project is correctness, data flow, and authentication — not UI polish.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Frontend
 
-## Expanding the ESLint configuration
+- React
+- React Router
+- Context API (auth state)
+- Fetch API
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Backend
+
+- Node.js
+- Express
+- PostgreSQL
+- JWT authentication
+- bcrypt for password hashing
+
+---
+
+## Core Features
+
+Users can:
+
+- **Authenticate**
+  - Sign up and log in with email/password
+  - JWT-based authentication
+  - Protected routes
+
+- **Manage habits**
+  - Create, edit, and delete habits
+  - Habits are user-specific
+
+- **Daily check-ins**
+  - One check-in per habit per day
+  - Server-side constraint prevents duplicates
+  - Progress shown as check-ins per week
+
+- **Authorization**
+  - Users can only access their own data
+  - All habit and check-in routes are protected
+
+---
