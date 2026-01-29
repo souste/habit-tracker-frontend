@@ -60,3 +60,5 @@ export const createCheckin = (habitId) =>
     method: "POST",
     body: JSON.stringify({ habitId }),
   });
+
+export const getCheckins = (habitId) => apiFetch(`checkins/${habitId}`);

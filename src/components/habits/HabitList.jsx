@@ -1,11 +1,24 @@
-import { useState } from "react";
-import { deleteHabit, updateHabit, createCheckin } from "../../services/api";
-import {} from "../../services/api";
+import { useState, useEffect } from "react";
+import { deleteHabit, updateHabit, createCheckin, getCheckins } from "../../services/api";
 
 function HabitList({ habits, loading, onDeleted }) {
   const [editingId, setEditingId] = useState(null);
   const [editName, setEditName] = useState("");
   const [checkedToday, setCheckedToday] = useState(() => new Set());
+  const [checkinCounts, setCheckinCounts] = useState({});
+
+  useEffect(() => {
+    const loadCounts = async () => {
+      const counts = {};
+
+      for (const habit of habits) {
+        const result = await getCheckins(habit.id);
+        counts[habit.id] = result.data.length;
+      }
+      setCheckinCounts(counts);
+    };
+    if (habits.length) loadCounts();
+  }, [habits]);
 
   if (loading) return <p>Loading Habits...</p>;
   if (!habits.length) return <p>No habits yet</p>;
@@ -40,6 +53,11 @@ function HabitList({ habits, loading, onDeleted }) {
   const handleCheckin = async (habitId) => {
     const result = await createCheckin(habitId);
 
+    setCheckinCounts((prev) => ({
+      ...prev,
+      [habitId]: (prev[habitId] ?? 0) + 1,
+    }));
+
     if (result.error) {
       if (String(result.error).toLowerCase().includes("already")) {
         setCheckedToday((prev) => new Set(prev).add(habitId));
@@ -65,7 +83,7 @@ function HabitList({ habits, loading, onDeleted }) {
           ) : (
             <div>
               <p> {habit.name}</p>
-              <p>{habit.frequency_per_week} / 7</p>
+              <p>{checkinCounts[habit.id] ?? 0} / 7</p>
               <button onClick={() => handleCheckin(habit.id)} disabled={checkedToday.has(habit.id)}>
                 {checkedToday.has(habit.id) ? "Checked Today ✅" : "Check in today"}
               </button>
